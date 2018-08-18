@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title Nota</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+
+    <style>
+        body {
+            background-image: url("/Slike radnje/Pozadina1.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-color:burlywood;
+            /*margin-left: 10px;
+            margin-right: 10px;*/
+            /*background-color: #ad7e0e;*/
+            /*clear: both;*/
+            /*background: url("/Slike radnje/Pozadina1.jpg");*/
+            /*background-repeat: repeat-y;*/
+            /*background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;*/
+            /*border: 3px solid black;*/
+            /*position: center;*/
+            /*opacity: 0.7;*/
+        }
+        .container {
+            border: 1px solid rgba(255, 0, 0, .2);
+            /*background-image: url("/Slike radnje/Pozadina1.jpg");
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-repeat: repeat-y;*/
+            /*width: 1600px;
+            margin: 1px,1px,1px,1px;
+            padding: 1px;*/
+        }
+
+    </style>
+</head>
+<body >
+    
+    @Html.Partial("_NavigacioniBar")
+   
+
+    <div class="container">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now </p>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Pocetna strana/lightbox")
+    @Scripts.Render("~/Novi/lightbox")
+    @RenderSection("scripts", required: false)
+    
+    <script>
+
+    </script>
+</body>
+</html>

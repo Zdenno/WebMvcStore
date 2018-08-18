@@ -1,0 +1,94 @@
+﻿@model IEnumerable<WebApplication2.Models.Proizvod>
+
+<style>
+    #Vratipr {
+        color: black;
+        background-color: white;
+    }
+</style>
+
+
+<table id="Vratipr"  class="table table-striped table-bordered ">
+    <thead>
+        <tr>
+            <th>
+                Naziv kategorije
+            </th>
+            <th>
+               Naziv proizvodjaca
+            </th>
+            <th>
+              Cena
+            </th>
+            <th>
+              Kolicina
+            </th>
+            <th>
+               Slika
+            </th>
+            <th>
+               Oglas postavio
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Kategorije.NazivKategorije)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NazivProizvodjaca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cena)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KolicinaNaLageru)
+                </td>
+                <td>
+
+                    <img id="img1" width="200" src="/Proizvodi/RenderImage/@item.ProizvodId" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OglasPostavio)
+                </td>
+                <td>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                       
+                        <a href="/Proizvodi/Details/@item.ProizvodId">Detalji</a>
+                        <a href="/Proizvodi/Delete/@item.ProizvodId">Obrisi</a>
+                    }
+                    else
+                    {
+                        <a href="/Proizvodi/Details/@item.ProizvodId">Detalji</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+ @section  Scripts{
+    <script src="~/Scripts/jquery-3.1.0.min.js"></script>
+    <script>
+
+         $(document).ready(function () {
+             var slika = $("img").click(function () {
+
+                 $(this).width(500);
+
+                 slika.dblclick(function () {
+                     $(this).width(200);
+                 });
+             });
+
+
+
+         });
+    </script>
+
+
+}

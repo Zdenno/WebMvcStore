@@ -1,0 +1,131 @@
+﻿@model WebApplication2.Models.Kategorija
+
+@{
+    ViewBag.Title = "Ubaci";
+}
+
+<style>
+    #formaUbaci label.error {
+        color: red;
+        float: left;
+    }
+
+    #formaUbaci label {
+        color: white;
+    }
+
+    #svekategorije {
+        color: white;
+    }
+</style>
+
+@if (User.Identity.Name == "Admin")
+{
+    <h2>Ubaci</h2>
+    <form id="formaUbaci" action="/Kategorije/Ubaci" method="post">
+        @Html.AntiForgeryToken()
+
+
+        <div class="form-horizontal">
+            <h4>Kategorija</h4>
+            <hr />
+            <div class="form-group">
+                <label for="TextNaziv" class="control-label col-md-2">Naziv kategorije</label>
+                <div class="col-md-10">
+                    <input id="TextNaziv" type="text" name="NazivKategorije" class="form-control" onmouseover="overNaziv()" onmouseout="outNaziv()"/>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TextOpis" class="control-label col-md-2">Opis kategorije</label>
+                <div class="col-md-10">
+                    <textarea id="TextOpis" name="OpisKategorije" class="form-control" cols="10" rows="3" onmouseover="overOpis()" onmouseout="outOpis()"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="TextDatum" class="control-label col-md-2">Datum kreiranja</label>
+                <div class="col-md-10">
+                    <input id="TextDatum" type="datetime" name="DatumKreiranja" value="@DateTime.Now" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Dodaj" class="btn btn-default" />
+                </div>
+            </div>
+
+        </div>
+    </form>
+}
+else
+{
+    <h2>Ulogujte se</h2>
+}
+
+
+    <div>
+        <a href="/Kategorije/Index"><span class="glyphicon glyphicon-align-justify"></span>Sve kategorije</a>
+    </div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")        
+
+        <script>
+            $(document).ready(function () {
+
+                $("#formaUbaci").validate({
+                    rules: {
+                        NazivKategorije: {
+                            required: true,
+                            minlength: 4
+                        },
+                        OpisKategorije: {
+                            required: true,
+                            minlength: 10
+                        },
+                        DatumKreiranja: {
+                            required: true
+
+                        }
+                    },
+                    messages: {
+                        NazivKategorije: {
+                            required: "Morate uneti naziv",
+                            minlength: "Naziv mora imati vise od 4 karaktera"
+                        },
+                        OpisKategorije: {
+                            required: "Morate uneti Opis",
+                            minlength: "Opis sadrzi vise od 10 karaktera"
+                        },
+                        DatumKreiranja: {
+                            required: "Morate uneti datum"
+
+                        }
+                    }
+                });
+            });
+
+            function overNaziv() {
+                var naziv = document.getElementById("TextNaziv");
+                naziv.setAttribute("placeholder", "Npr: Bubnjevi");
+
+            }
+            function overOpis() {
+                $("#TextOpis").attr("placeholder", "Npr: Udaracki instrumenti");
+            }
+
+
+
+
+            function outNaziv() {
+                var naziv = document.getElementById("TextNaziv");
+                naziv.removeAttribute("placeholder", "Npr: Bubnjevi");
+
+            }
+            function outOpis() {
+                $("#TextOpis").removeAttr("placeholder", "Npr: Udaracki instrumenti");
+            }
+
+        </script>
+    }

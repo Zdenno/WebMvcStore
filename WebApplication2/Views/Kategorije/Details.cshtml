@@ -1,0 +1,54 @@
+﻿@model WebApplication2.Models.Kategorija
+
+@{
+    ViewBag.Title = "Details";
+}
+
+
+<style>
+    #detalji {
+        color: white;
+    }
+</style>
+
+
+<div>
+    <h4>Kategorija</h4>
+    <hr />
+    <dl id="detalji" class="dl-horizontal">
+        <dt>
+           Naziv kategorije
+        </dt>
+
+        <dd>
+           @Model.NazivKategorije
+        </dd>
+
+        <dt>
+            Opis kategorije
+        </dt>
+
+        <dd>
+            @Model.OpisKategorije
+        </dd>
+
+        <dt>
+            Datum kreiranja
+        </dt>
+
+        <dd>
+           @Model.DatumKreiranja
+        </dd>
+
+    </dl>
+</div>
+<p>
+
+    @if (User.Identity.Name == "Admin")
+    {
+        <button class="btn btn-default"><a href="@string.Format("/Kategorije/Edit/{0}", Model.KategorijaId)" class="col-md-offset-2"><span></span>Promeni</a></button>
+    }
+    
+    <br />
+    <a href="/Kategorije/Index"><span class="glyphicon glyphicon-list"></span>Nazad na listu</a>
+</p>

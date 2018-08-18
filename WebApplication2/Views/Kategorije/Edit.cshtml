@@ -1,0 +1,133 @@
+﻿@model WebApplication2.Models.Kategorija
+
+@{
+    ViewBag.Title = "Promeni";
+}
+
+<style>
+    #formedit {
+        color: white;
+    }
+
+        #formedit label.error {
+            color: brown;
+            float: left;
+        }
+</style>
+
+@if (User.Identity.Name == "Admin")
+{
+    <h2>Promeni</h2>
+    <form id="formedit" action="/Kategorije/Edit" method="post">
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="KategorijaId" value="@Model.KategorijaId" />
+
+        <div class="row">
+            <div class="form-group">
+                <label for="textNaziv" class="control-label col-md-2">Naziv</label>
+                <div class="col-md-10">
+                    <input id="textNaziv" type="text" name="NazivKategorije" class="form-control" value="@Model.NazivKategorije" onmouseover="overNaziv()" onmouseout="outNaziv()" />
+                </div>
+            </div>
+        </div><br />
+
+        <div class="row">
+            <div class="form-group">
+                <label class="control-label col-md-2">Opis</label>
+                <div class="col-md-10">
+                    <textarea id="TextArea1" name="OpisKategorije" rows="2" cols="20" class="form-control" onmouseover="overOpis()" onmouseout="outOpis()">@Model.OpisKategorije
+                    </textarea>
+                </div>
+            </div>
+        </div>
+        <br />
+
+        <div class="row">
+            <div class="form-group">
+                <label for="textDatum" class="control-label col-md-2">Datum</label>
+                <div class="col-md-10">
+                    <input id="textDatum" type="text" name="DatumKreiranja" class="form-control" value="@Model.DatumKreiranja" />
+                </div>
+            </div>
+        </div>
+
+        <input type="submit" name="name" value="Sacuvaj" class="btn btn-primary" />
+    </form>
+}
+else
+{
+    <h2>Ne mozete da modifkujete podatke ukoliko niste njihov vlasnik</h2>
+}
+<br /><br />
+
+
+<div class="col-md-3">
+    <a href="/Kategorije/Index"><span class="glyphicon glyphicon-align-justify"></span>Vrati se na listu kategorija</a>
+</div>
+@section Scripts        {
+
+    @Scripts.Render("~/bundles/jqueryval");
+    <script>
+        $(document).ready(function () {
+
+            $("#formedit").validate({
+                rules: {
+                    NazivKategorije: {
+                        required: true,
+                        minlength: "3"
+                    },
+                    OpisKategorije: {
+                        required: true,
+                        minlength: "5"
+                    },
+                    DatumKreiranja: {
+                        required: true
+
+                    }
+
+                },
+                messages: {
+                    NazivKategorije: {
+                        required: "Morate uneti naziv",
+                        minlength: "Naziv mora sadrzati bar 3 karaktera"
+                    },
+                    OpisKategorije: {
+                        required: "Morate uneti opis",
+                        minlength: "Opis mora sadrzati bar 5 karaktera"
+                    },
+                    DatumKreiranja: {
+                        required: "Morate uneti datum",
+
+                    }
+                }
+            });
+        });
+
+
+        function overNaziv() {
+            var naziv = document.getElementById("textNaziv");
+            naziv.setAttribute("placeholder", "Npr: Bubnjevi");
+
+        }
+        function overOpis() {
+            $("#TextArea1").attr("placeholder", "Npr: Udaracki instrumenti");
+        }
+
+
+
+
+        function outNaziv() {
+            var naziv = document.getElementById("textNaziv");
+            naziv.removeAttribute("placeholder", "Npr: Bubnjevi");
+
+        }
+        function outOpis() {
+            $("#TextArea1").removeAttr("placeholder", "Npr: Udaracki instrumenti");
+        }
+
+    </script>
+
+
+}

@@ -1,0 +1,61 @@
+﻿@model WebApplication2.Models.Kategorija
+
+@{
+    ViewBag.Title = "Brisanje";
+}
+
+<style>
+    #dl1 {
+        color: white;
+    }
+</style>
+
+
+ 
+@if (User.Identity.Name == "Admin")
+{
+<h3>Da li ste sigurni da zelite da obrisete kategoriju?</h3>
+<div>
+   
+    <hr />
+    <dl id="dl1" class="dl-horizontal">
+        <dt>
+            Naziv kategorije
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NazivKategorije)
+        </dd>
+
+        <dt>
+            Opis kategorije
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.OpisKategorije)
+        </dd>
+
+        <dt>
+            Datum kreiranja
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DatumKreiranja)
+        </dd>
+
+    </dl>
+
+    <form method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Obrisi kategoriju" class="btn btn-danger" /> |
+            <a href="/Kategorije/Index"><span class="glyphicon glyphicon-list"></span>Nazad na listu</a>
+        </div>
+    </form>
+</div>
+}
+else
+{
+    <h2>Zabranjeno brisanje</h2>
+}

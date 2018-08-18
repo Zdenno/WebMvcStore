@@ -1,0 +1,233 @@
+﻿@model WebApplication2.Models.Proizvod
+
+@{
+    ViewBag.Title = "Promeni";
+}
+
+
+<style>
+    #formaEdituj label.error {
+        color: red;
+    }
+
+    alert .message {
+        color: red;
+    }
+
+    label {
+        color: white;
+    }
+</style>
+
+@if (User.Identity.Name == "Admin" || User.Identity.Name == Model.OglasPostavio)
+{
+
+    <h2>Promena podataka</h2>
+    <hr /><br />
+   
+ <form id="formaEdituj" action="/Proizvodi/Edit" method="post" enctype="multipart/form-data"> 
+
+        @Html.AntiForgeryToken()
+
+        <input type="hidden" name="ProizvodId" value="@Model.ProizvodId" />
+        <input id="promena" type="hidden" name="promena" value="0" />
+        <div class="form-group">
+            <div class="row">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <select name="KategorijaId" id="select1" class="form-control" required>
+                            <option value="">Sve kategorije</option>
+                            @foreach (var i in ViewBag.Kategorije)
+                            {
+                                if (i.KategorijaId == ViewBag.KategorijaId)
+                                {
+                                    <option value="@i.KategorijaId" selected>@i.NazivKategorije</option>
+                                }
+                                else
+                                {
+                                    <option value="@i.KategorijaId">@i.NazivKategorije</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <br />
+            </div>
+            <br />
+            <hr />
+            @*<div class="row">
+                <div class="form-group">
+                    <label for="Text132" class="control-label col-md-3">KategorijaId (@Model.Kategorije.NazivKategorije)</label>
+                    <div class="col-md-6">
+                        <input id="Text132" type="text" onclick="kategorijaid()" name="KategorijaId" value="@Model.Kategorije.KategorijaId" class="form-control" />
+                    </div>
+                </div>
+            </div>*@
+            <br />
+     <div class="row">
+         <div class="form-group">
+             <label for="Text1" class="control-label col-md-2">Naziv</label>
+             <div class="col-md-10">
+                 <input id="Text1" type="text" name="NazivProizvodjaca" value="@Model.NazivProizvodjaca" class="form-control" />
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="form-group">
+             <label class="control-label col-md-2">Cena</label>
+             <div class="col-md-10">
+                 <input type="number" name="Cena" value="@Model.Cena" class="form-control" />
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="form-group">
+             <label class="control-label col-md-2">Kolicina</label>
+             <div class="col-md-10">
+                 <input type="number" name="KolicinaNaLageru" value="@Model.KolicinaNaLageru" class="form-control" />
+             </div>
+         </div>
+     </div>
+          <div class="row">
+         <div class="form-group">
+             <label for="File1" class="control-label col-md-2">Slika</label>
+             <div class="col-md-10">
+                 <input id="File1" type="file" name="poslatFajl" value="@Model.Slika" class="form-control" onchange="ucitajsliku()" />
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="form-group">
+             <label for="img1" class="control-label col-md-2">Trenutna slika</label>
+             <div class="col-md-10">
+                 <img width="200" id="img1" />
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="form-group">
+             <label class="control-label col-md-2">Oglas je postavio</label>
+             <div class="col-md-10">
+                 <input type="text" name="OglasPostavio" value="@Model.OglasPostavio" class="form-control" />
+             </div>
+         </div>
+     </div>
+     <div class="row">
+         <div class="form-group">
+             <div class="col-md-2">
+                 <input type="submit" value="Sacuvaj promene" class="btn btn-success" />
+             </div>
+         </div>
+     </div>
+    </form>
+}
+else
+{
+    <h2>Morate biti korisnik ovog sajta</h2>
+}
+
+
+
+
+
+<div>
+    <a href="/Proizvodi/Index"><span class="glyphicon glyphicon-list"></span>Lista proizvoda</a>
+</div>
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+        function kategorijaid() {
+            alert("Napomena: Ovde menjate kategoriju proizvoda");
+        }
+
+
+        
+  
+
+            $(document).ready(function () {
+
+                $("#formaEdituj").validate({
+                    rules: {
+                        KategorijaId: {
+                            required: true
+                        },
+
+                        NazivProizvodjaca: {
+                            required: true,
+                            minlength: 3
+                        },
+                        Cena: {
+                            required: true
+                        },
+                        KolicinaNaLageru: {
+                            required: true
+                        },
+
+                        poslatFajl: {
+                            required: true
+                        },
+
+                        OglasPostavio: {
+                            required: true
+                        }
+
+                    },
+                    messages: {
+                        KategorijaId: {
+                            required: "Morate odabrati kategoriju"
+                        },
+                        NazivProizvodjaca: {
+                            required: "Morate uneti naziv proizvoda",
+                            minlength: "Minimalno 3 karaktera"
+                        },
+                        Cena: {
+                            required: "Morate uneti cenu"
+                        },
+                        KolicinaNaLageru: {
+                            required: "Morate uneti kolicinu"
+                        },
+
+                        poslatFajl: {
+                            required: "Odaberite sliku"
+                        },
+                        OglasPostavio: {
+                            required: "Morate uneti ime"
+                        }
+                    }
+                });
+            });
+
+        
+
+        function ucitajsliku() {
+
+            var fajlElement = document.getElementById("File1");
+            if (fajlElement.files.length != 0 && fajlElement.files[0].type.match(/image.*/)) {
+                var reader = new FileReader();
+                reader.readAsDataURL(fajlElement.files[0]);
+
+                reader.onload = function (e) {
+                    var imgElem = document.getElementById("img1");
+                    imgElem.src = reader.result;
+
+                    $("#promena").attr("value", "1");
+                };
+                reader.onerror = function (e) {
+                    alert("Ne moze da se ucita slika");
+                };
+
+                //var dataURL = reader.result;
+                //var output = document.getElementById('output');
+                //output.src = dataURL;
+            }
+
+            else {
+                alert("Odaberite sliku");
+            }
+        }
+    </script>
+
+}

@@ -1,0 +1,92 @@
+﻿@{
+    ViewBag.Title = "O nama";
+}
+ <div class="container">
+    <h1>O nama</h1>
+</div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBlGlDd3oHnCs8tJJesf3TZDSWTY33niI0&callback=initMap"></script>
+<style>
+    .row {
+        color: white;
+    }
+</style>
+<div class="row">
+    <dl class="dl-horizontal">
+        <dt>Naziv prodavnice</dt>
+        <dd>Nota<img src="~/Slike radnje/Nota.png" width="25"/></dd>
+        <dt>Mesto</dt>
+        <dd>Padina</dd>
+        <dt>Adresa</dt>
+        <dd>M.Tita</dd>
+        <dt>Email</dt>
+        <dd>zdenn1@hotmail.com</dd>
+        <dt>Telefon</dt>
+        <dd>06388341980</dd>
+        
+    </dl>
+</div>
+<div class="col-lg-offset-5" id="mapa1"></div>
+<span id="span1"></span>
+
+<script>
+    window.onload(citajLokaciju())
+    var sp1 = document.getElementById("span1");
+
+        function citajLokaciju() {
+            if  (navigator.geolocation){
+                navigator.geolocation.getCurrentPosition(prikaziLokaciju, greska);
+            }
+            else {
+                sp1.innerHTML = "Vas browser ne podrzava geolokaciu"
+            }
+        }
+        
+        function prikaziLokaciju(pozicija) {
+
+            var lat = pozicija.coords.latitude;
+            var lon = pozicija.coords.longitude;
+            var latlon = new google.maps.LatLng(lat, lon); //44.786568 i 20.448922 BELGRADE  umesto lat i lon, 
+            var mapholder = document.getElementById("mapa1");
+            mapholder.style.height = "300px";
+            mapholder.style.width = "300px";
+
+           
+            var mojeOpcije = {
+                center: latlon, zoom: 14,
+                mapTypeId: google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false,                
+                navigationControlOptions: { style: google.maps.NavigationControlStyle.SMALL }
+            }
+
+            var mapa = new google.maps.Map(mapholder, mojeOpcije);
+            var marker = new google.maps.Marker({ position: latlon, map: mapa, title: "Vi ste ovde!" });
+        }
+
+        function greska(err) {
+            sp1.innerHTML ="Greska " +  err.code + " " + err.message + " !";
+        }
+
+
+
+    ///If we need current location
+
+
+
+    //mapholder.style.height = "250px";
+    //mapholder.style.width = "500px";
+
+
+    //function prikaziLokaciju(pozicija) {
+    //    var latlon = pozicija.coords.latitude + "," + pozicija.coords.longitude;
+
+    //    var url = "http://maps.googleapis.com/maps/api/staticmap?center="
+    //    + latlon + "&zoom=14&size=400x300&sensor=true";
+
+    //    document.getElementById("mapa1").innerHTML = "<img src='" + url + "'>";
+    //}
+    //function prikaziLokaciju(lokacija) {
+    //    sp1.innerHTML = "latituda:" + lokacija.coords.latitude + "<br>" + "Longituda: " + lokacija.coords.longitude;
+    //}
+</script>
+

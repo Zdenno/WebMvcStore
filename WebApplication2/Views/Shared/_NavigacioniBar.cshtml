@@ -1,0 +1,261 @@
+﻿
+<style>
+     #div1 {
+         background-color:burlywood;
+     }
+    #div1 .container {
+        width: inherit;
+        background: url("/Slike radnje/Pozadina1.jpg");
+        font-weight: bolder;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        width: 1600px;
+        /*visibility: initial;*/
+        /*outline-color: white;*/
+        color: white;
+    }
+
+    span {
+        color: white;
+    }
+
+    em {
+        color: white;
+    }
+    li {
+        text-align:center;
+        
+    }
+</style>
+
+
+<div id="div1" class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @*@Html.ActionLink("Prodavnica", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
+            <a href="/Home/Index" class="navbar-brand">@*<img src="~/Slike radnje/Nota.png" width="25"/>*@Nota Music </a>
+        </div>
+        <div id="div2" class="navbar-collapse collapse">
+            <ul id="ul1" class="nav navbar-nav">
+                <li><a href="/Kategorije/Index"><em>Kategorije</em></a></li>
+                <li><a href="/Proizvodi/Index"><em>Proizvodi</em></a></li>
+                <li><a href="/Home/About"><span class="glyphicon glyphicon-book">O nama</span></a></li>
+                <li><a data-toggle="modal" data-target="#modal1" data-backdrop="static"><span class="glyphicon glyphicon-send">Kontakt</span></a></li>
+
+            </ul>
+
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+@*<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            @Html.ActionLink("Prodavnica", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/Kategorije/Index">Kategorije</a></li>
+                <li><a href="/Proizvodi/Index">Proizvodi</a></li>
+                <li><a href="/Home/Kontakt">Kontakt</a></li>
+                <li><a href="/Home/About">O nama</a></li>
+            </ul>
+            
+            @Html.Partial("_LoginPartial")
+        </div>
+    </div>
+</div>*@
+
+
+
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #glavni {
+            margin: 2px;
+            border: 5px solid grey;
+            border-radius: 10px;
+            width: 300px;
+            padding: 10px;
+            background-color: transparent;
+        }
+
+            #glavni p {
+                margin: 0px;
+            }
+
+        #modal1 input[type], textarea {
+            background-color: burlywood;
+            width: 230px;
+            padding: 10px;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        #formaKontakt {
+            width: 400px;
+        }
+
+            #formaKontakt label {
+                width: 250px;
+            }
+
+                #formaKontakt label.error, #forma1 input.submit {
+                    margin-left: 255px;
+                    color: red;
+                }
+
+        #modal1 span {
+            color: black;
+        }
+
+
+        .modal-body {
+            background-color: beige;
+        }
+
+        .modal-title {
+            color: aqua;
+        }
+
+        .close {
+            background-color: black;
+        }
+    </style>
+
+</head>
+<body>
+
+    <div id="modal1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="false">&times;</span></button> @*aria-label="Close" aria-hidden="true"*@
+                    <h4 class="modal-title">Kontakt</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formaKontakt" action="/Home/PosaljiMail" method="post">
+                        <div id="glavni" class="container">
+                            <div class="form-group">
+                                <p>
+                                    <label for="TextIme">Unesite ime</label>
+                                    <input id="TextIme" type="text" name="Ime" class="form-control" />
+                                </p>
+
+                                <p>
+                                    <label for="TextPrezime">Unesite prezime</label>
+                                    <input id="TextPrezime" type="text" name="Prezime" class="form-control" />
+                                </p>
+
+                                <p>
+                                    <label for="TextEmail">Unesite vasu e-mail adresu</label>
+                                    <input id="TextEmail" type="email" name="Email" class="form-control" />
+                                </p>
+                                <p>
+                                    <label for="TextPoruka">Unesite poruku</label>
+                                    <textarea id="TextPoruka" rows="7" cols="20" name="Poruka" class="form-control"></textarea>
+                                </p>
+
+                                <p>
+                                    <button type="submit" class="btn btn-danger">Posaljite poruku</button>
+                                </p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal1"><span class="glyphicon glyphicon-eye-close">Zatvori</span></button>
+                    <p>&copy; @DateTime.Now</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    alert("Podaci poslati do servera");
+                }
+            });
+
+
+
+
+        $("#formaKontakt").validate({
+
+            rules: {
+                Ime: {
+                    required: true,
+                    minlength: 3
+                },
+                Prezime: {
+                    required: true,
+                    minlength: 5
+                },
+                Email: {
+                    required: true,
+                },
+                Poruka: {
+                    required: true,
+
+                }
+
+            },
+
+            messages: {
+                Ime: {
+                    required: "Morate uneti ime.",
+                    minlength: "Naziv imena ima minimum 3 karaktera."
+                },
+                Prezime: {
+                    required: "Morate uneti prezime.",
+                    minlength: "Naziv imena ima minimum 3 karaktera."
+                },
+                Email: {
+                    required: "Morate uneti validan mail",
+
+                },
+                Poruka: {
+                    required: "Unesite komentar"
+                }
+            },
+        });
+
+        });
+
+    </script>
+}

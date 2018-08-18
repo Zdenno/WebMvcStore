@@ -1,0 +1,99 @@
+﻿@model WebApplication2.Models.Proizvod
+
+@{
+    ViewBag.Title = "Brisanje";
+}
+
+<style>
+    dl {
+        color: white;
+    }
+</style>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <h2>Brisanje</h2>
+
+    <h3>Da li ste sigurni da zelite da obrisete proizvod?</h3>
+    <div>
+        <h4>Proizvod</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                Kategorija
+            </dt>
+
+            <dd>
+                @Model.Kategorije.NazivKategorije
+            </dd>
+
+            <dt>
+                Naziv proizvoda
+            </dt>
+
+            <dd>
+                @Model.NazivProizvodjaca
+            </dd>
+
+            <dt>
+                Cena
+            </dt>
+
+            <dd>
+                @Model.Cena
+            </dd>
+
+            <dt>
+                Kolicina
+            </dt>
+
+            <dd>
+                @Model.KolicinaNaLageru
+            </dd>
+
+            <dt>
+                Slika
+            </dt>
+
+            <dd>
+                <img id="slikaDelete" src="/Proizvodi/RenderImage/@Model.ProizvodId" width="200" /> 
+            </dd>
+
+            <dt>
+                Oglas postavio
+            </dt>
+
+            <dd>
+                @Model.OglasPostavio
+            </dd>
+
+        </dl>
+
+        <form method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Obrisi" class="btn btn-danger" onclick="return confirm('Da li ste sigurni da zelite da obrisete stavku?')" /> |
+                <a href="/Proizvodi/Index"><span class="glyphicon glyphicon-list"></span>Lista proizvoda</a>
+            </div>
+        </form>
+    </div>
+}
+
+
+@section Scripts{
+    <script>
+        var slika = document.getElementById("slikaDelete");
+
+        slika.onclick = function () {
+            slika.width = 500;
+        }
+        slika.ondblclick = function () {
+            slika.width = 200;
+        }
+
+        
+    </script>
+    
+    }

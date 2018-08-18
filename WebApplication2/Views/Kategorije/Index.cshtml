@@ -1,0 +1,151 @@
+﻿@model IEnumerable<WebApplication2.Models.Kategorija>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<style>
+    .select {
+        background-color: orange !important;
+    }
+
+    .pretraga {
+        background-color: beige;
+        font-size: large;
+        color: black;
+    }
+     prompt{
+    position:absolute;
+    top:100px;
+    left:100px;
+    border:solid 1px black;
+    background-color: #528CE0;
+    padding: 50px;
+    
+}
+  
+</style>
+
+@if (User.Identity.Name == "Admin")
+{
+    <p>
+        <a href="/Kategorije/Ubaci">Dodaj novu kategoriju</a>
+    </p>
+}
+
+
+<div id="divpretraga" class="col-md-6">
+    <div class="form-group">
+
+        @*<button type="button" onclick="return prompt('Unesite deo naslova')"></button>
+
+        <label for="Text1" class="control-label"><span class="pretraga">Unesite deo naslova: </span></label>*@
+        @*<input id="Text1" type="text" class="form-control" />*@
+    </div>
+    <div class="form-group">
+
+        <a onclick="citaj()" class="btn btn-info btn-xs">
+           
+            <span class="glyphicon glyphicon-search" /> Trazi
+        </a>
+        <a href="/Kategorije/Index" class="btn btn-warning btn-xs">Sve kategorije</a>
+    </div>
+</div>
+
+
+<table class="table table-bordered table-striped select" id="tbl">
+    <tr>
+        <th>
+           KategorijaId 
+        </th>
+        <th>
+            Naziv kategorije
+        </th>
+        <th>
+            Opis kategorije
+        </th>
+        <th>
+            Datum kreiranja
+        </th>
+        <th></th>
+    </tr>
+    <tbody>
+        @foreach (var z in Model)
+        {
+
+            <tr>
+                <td>
+                    @z.KategorijaId
+                </td>
+                <td>
+                    @z.NazivKategorije
+                </td>
+                <td>
+                    @z.OpisKategorije
+                </td>
+                <td>
+                    @z.DatumKreiranja
+                </td>
+
+                <td>
+                    @if (User.Identity.Name == "Admin" )
+                    {
+                        <a href="@string.Format("/Kategorije/Edit/{0}", z.KategorijaId)">Promeni</a>
+                        <a href="@string.Format("/Kategorije/Delete/{0}",z.KategorijaId)">Obrisi</a>
+                        <a href="@string.Format("/Kategorije/Details/{0}",z.KategorijaId)">Detalji</a>
+                    }
+                    else
+                    {
+                        <a href="@string.Format("/Kategorije/Details/{0}",z.KategorijaId)">Detalji</a>
+                    }
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+<div id="div3">
+
+</div>
+@section Scripts{
+
+    <script>
+        function Vratikategorije(deo) {
+
+
+            var zahtev = $.ajax({
+                type: "GET",
+                url: "/Kategorije/_VratiKategorije",   
+                data: { deoNaslova: deo },              
+                contentType: "application/html",        
+                dataType: "html"
+
+            });
+            zahtev.done(function (podaci) {
+                $("#div3").html(podaci);
+            });
+            zahtev.fail(function (err) {
+                $("#div3").html(err.statusText);
+            });
+        }
+
+        function citaj() {
+
+            var tekst = prompt("Unesite deo naslova", "Bubnjevi");
+
+            if (tekst != "") {
+                $("#tbl").html("");
+                Vratikategorije(tekst);
+            }
+            else {
+                alert("Pogresan unos");
+            }
+
+        }
+    </script>
+
+
+}

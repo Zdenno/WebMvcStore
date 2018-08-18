@@ -1,0 +1,131 @@
+﻿
+@*@{
+    ViewBag.Title = "Kontakt";
+}
+
+<h2>Kontakt</h2>
+
+ 
+<html>
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        #glavni {
+            margin: 2px;
+            border: 5px solid orange;
+            border-radius: 10px;
+            width: 350px;
+            padding: 10px;
+            background-color: aquamarine;
+        }
+
+            #glavni p {
+                margin: 0px;
+            }
+
+        input[type], textarea {
+            background-color: burlywood;
+            width: 300px;
+            padding: 10px;
+            float: left;
+            margin-bottom: 10px;
+        }
+
+        #forma1 {
+            width: 500px;
+        }
+
+            #forma1 label {
+                width: 250px;
+            }
+
+                #forma1 label.error, #forma1 input.submit {
+                    margin-left: 255px;
+                    color: red;
+                }
+    </style>
+</head>
+<body>
+    <form id="forma1" action="/Home/PosaljiMail" method="post">
+        <div id="glavni" class="container">
+            <div class="form-group">
+                <p>
+                    <label for="TextIme">Unesite ime</label>
+                    <input id="TextIme" type="text" name="Ime" class="form-control" />
+                </p>
+
+                <p>
+                    <label for="TextPrezime">Unesite prezime</label>
+                    <input id="TextPrezime" type="text" name="Prezime" class="form-control" />
+                </p>
+
+                <p>
+                    <label for="TextEmail">Unesite vasu e-mail adresu</label>
+                    <input id="TextEmail" type="email" name="Email" class="form-control" />
+                </p>
+                <p>
+                    <label for="TextPoruka">Unesite poruku</label>
+                    <textarea id="TextPoruka" rows="12" cols="20" name="Poruka" class="form-control"></textarea>
+                </p>
+
+                <p>
+                    <button type="submit" class="btn btn-danger">Posaljite poruku</button>
+                </p>
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>*@
+
+<!--<script>
+        $(document).ready(function () {
+            $.validator.setDefaults({
+                submitHandler: function () {
+                    alert("Podaci poslati do servera");
+                }
+            });
+
+            $("#forma1").validate({
+
+                rules: {
+                    Ime: {
+                        required: true,
+                        minlength: 3
+                    },
+                    Prezime: {
+                        required: true,
+                        minlength: 5
+                    },
+                    Email: {
+                        required: true,
+                    },
+                    Poruka: {
+                        required: true,
+
+                    }
+
+                },
+
+                messages: {
+                    Ime: {
+                        required: "Morate uneti ime.",
+                        minlength: "Naziv imena ima minimum 3 karaktera."
+                    },
+                    Prezime: {
+                        required: "Morate uneti prezime.",
+                        minlength: "Naziv imena ima minimum 5 karaktera."
+                    },
+                    Email: {
+                        required: "Morate uneti validan mail",
+
+                    },
+                    Poruka: {
+                        required: "Unesite komentar"
+                    }
+                }
+            });
+        });
+</script>-->

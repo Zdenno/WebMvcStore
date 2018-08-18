@@ -1,0 +1,55 @@
+﻿@model IEnumerable<WebApplication2.Models.Kategorija>
+
+
+ 
+<style>
+    #tbl {
+        color: black;
+        background-color: antiquewhite;
+    }
+</style>
+
+
+<table class="table table-bordered table-striped" id="tbl">
+    <tr>
+        <th>
+           Naziv kategorije
+        </th>
+        <th>
+           Opis kategorije
+        </th>
+        <th>
+           Datum kreiranja
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var k in Model) {
+    <tr>
+        <td>
+           @k.NazivKategorije
+        </td>
+        <td>
+            @k.OpisKategorije
+        </td>
+        <td>
+           @k.DatumKreiranja
+        </td>
+        <td class="text-danger">
+            @if (User.Identity.Name == "Admin")
+            {
+                @*<a href="@string.Format("/Kategorije/Ubaci/{0}",k.KategorijaId)">Kreiraj novu kategoriju</a>*@
+                <a href="@string.Format("/Kategorije/Edit/{0}",k.KategorijaId)">Promeni</a>
+                <a href="@string.Format("/Kategorije/Details/{0}",k.KategorijaId)">Detalji</a>
+
+            }
+            else
+            {
+                <a href="@string.Format("/Kategorije/Details/{0}",k.KategorijaId)">Detalji</a>
+            }
+            
+        </td>
+    </tr>
+}
+
+</table>

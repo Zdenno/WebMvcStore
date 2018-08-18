@@ -1,0 +1,230 @@
+﻿@model WebApplication2.Models.Proizvod
+@{
+    ViewBag.Title = "Create";
+}
+
+
+
+<style>
+    form label.error {
+        color: red;
+        float: left;
+    }
+
+    hr {
+        border: dotted 1px grey;
+    }
+
+    #formaproizvod img {
+        width: 200px;
+        margin: 10px;
+        border: 2px solid black;
+        /*float:left;*/
+    }
+
+    label {
+        color: white;
+    }
+</style>
+@if (User.Identity.IsAuthenticated || User.Identity.Name == "Admin")
+{
+    <h2 >Novi proizvod</h2>
+    <hr /><br />
+    <form id="formaproizvod" action="/Proizvodi/Create" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+        <div class="row">
+            <div class="form-group">
+                <label for="Select1" class="col-md-2 control-label">Kategorija</label>
+                <div class="col-md-10">                  
+
+                    <select name="KategorijaId" id="Select1" class="form-control" required="required">                        
+                        <option value="">Odaberite kategoriju</option>
+                        @foreach (var stavka in ViewBag.KategorijaId)
+                        {
+                            <option value="@stavka.KategorijaId">@stavka.NazivKategorije</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group">
+                <label for="Text1" class="col-md-2 control-label">Naziv proizvoda</label>
+                <div class="col-md-10">
+                    <input id="Text1" type="text" name="NazivProizvodjaca" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group">
+                <label for="cena" class="control-label col-md-2">Cena</label>
+                <div class="col-md-10">
+                    <input id="cena" type="number" name="Cena" class="form-control" />
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="row">
+            <div class="form-group">
+                <label for="kolicina" class="control-label col-md-2">Kolicina</label>
+                <div class="col-md-10">
+                    <input id="kolicina" type="number" name="KolicinaNaLageru" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+
+        <div class="row">
+            <div class="form-group">
+                <label for="File1" class="control-label col-md-2">Slika</label>
+                <div class="col-md-10">
+                    <input id="File1" type="file" name="poslataSlika" class="form-control" onchange="ucitajsliku()" />
+                </div>
+            </div>          
+
+        </div>
+        <div class="row">
+            <div class="form-group">
+                <label for="img1" class="control-label col-md-2">Odabrana slika</label>
+                <div class="col-md-10">
+                    <img id="img1" width="200" />
+                </div>
+            </div>
+        </div>       
+                
+       
+        <div class="row">
+            <div class="form-group">
+                <label for="Postavio" class="control-label col-md-2">Oglas postavio</label>
+                <div class="col-md-10">
+                    <input id="Postavio" type="text" name="OglasPostavio" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-save"></span>Kreiraj</button>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+
+    <hr />
+
+    <div>
+        <a href="/Proizvodi/Index"><span class="glyphicon glyphicon-list"></span>Otkazi(Nazad na listu)</a>
+    </div>
+}
+else
+{
+    <h2>Ulogujte se</h2>
+}
+
+
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script>
+       
+        $(document).ready(function () {
+
+            $("#formaproizvod").validate({
+                rules: {
+                    KategorijaId: {
+                        required: true
+                    },
+
+                    NazivProizvodjaca: {
+                        required: true,
+                        minlength: 3
+                    },
+                    Cena: {
+                        required: true
+                    },
+                    KolicinaNaLageru: {
+                        required: true
+                    },
+
+                    poslataSlika: {
+                        required: true
+                    },
+
+                    OglasPostavio: {
+                        required: true
+                    }
+
+                },
+                messages: {
+                    KategorijaId: {
+                        required: "Morate odabrati kategoriju"
+                    },
+                    NazivProizvodjaca: {
+                        required: "Morate uneti naziv proizvoda",
+                        minlength: "Minimalno 3 karaktera"
+                    },
+                    Cena: {
+                        required: "Morate uneti cenu"
+                    },
+                    KolicinaNaLageru: {
+                        required: "Morate uneti kolicinu"
+                    },
+
+                    poslataSlika: {
+                        required: "Odaberite sliku"
+                    },
+                    OglasPostavio: {
+                        required: "Morate uneti svoje korisnicko ime"
+                    }
+                }
+            });
+        });
+
+
+        function ucitajsliku() {
+
+            var fajlElement = document.getElementById("File1");
+            if (fajlElement.files.length != 0 && fajlElement.files[0].type.match(/image.*/)) {
+                var reader = new FileReader();
+                reader.readAsDataURL(fajlElement.files[0]);
+
+                reader.onload = function (e) {
+                    var imgElem = document.getElementById("img1");
+                    imgElem.src = reader.result;
+                };
+                reader.onerror = function (e) {
+                    alert("Ne moze da se ucita slika");
+                };
+                             
+            }
+
+            else {
+                alert("");
+            }
+        }
+        
+        
+
+ 
+        //var combo = document.getElementById("Select1");
+
+        //function sacuvaj()
+        //{
+        //    sessionStorage.selIndex = combo.selectedIndex;
+        //}
+        //$(document).ready(function () {
+        //    if (sessionStorage.selIndex) {
+        //        kombo.selectedIndex = sessionStorage.selIndeks;
+        //    }
+
+
+        //});
+    </script>
+}

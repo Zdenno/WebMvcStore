@@ -1,0 +1,97 @@
+﻿@model WebApplication2.Models.Proizvod
+
+@{
+    ViewBag.Title = "Detalji";
+}
+
+<h2>Detalji</h2>
+<style>
+    dl {
+        color: white;
+    }
+</style>
+<div>
+    <h4>Proizvod</h4>
+    <hr />
+    @*<img width="400" src="@Url.Action("CitajSliku","Proizvodi",new {id = Model.Kategorije.KategorijaId })"/>*@
+
+    <img width="200" src="@Url.Action("RenderImage", new { id = Model.ProizvodId})" />
+    <dl class="dl-horizontal">
+        <dt>
+           Kategorija 
+        </dt>
+
+        <dd>
+            @Model.Kategorije.KategorijaId
+        </dd>
+
+        <dt>
+            Naziv
+        </dt>
+
+        <dd>
+            @Model.NazivProizvodjaca
+        </dd>
+
+        <dt>
+            Cena
+        </dt>
+
+        <dd>
+            @Model.Cena
+        </dd>
+
+        <dt>
+            Kolicina na lageru
+        </dt>
+
+        <dd>
+            @Model.KolicinaNaLageru
+        </dd>      
+
+        <dt>
+            Oglas postavio
+        </dt>
+
+        <dd>
+            @Model.OglasPostavio
+        </dd>
+
+    </dl>
+</div>
+ 
+@if (User.Identity.Name == "Admin" || User.Identity.Name == Model.OglasPostavio)
+{
+    <button class="btn btn-default"><a href="/Proizvodi/Edit/@Model.ProizvodId"><span class="glyphicon glyphicon-edit"></span>Promeni</a></button>
+    <br />
+    <div class="col-lg-offset-4 col-md-6">
+        <a href="/Proizvodi/Index"><span class="glyphicon glyphicon-list"></span>Nazad na listu </a>
+    </div>
+    
+}
+else
+{
+    <a href="/Proizvodi/Index">Nazad na listu</a>
+}
+
+
+@section Scripts
+{
+    <script>
+        var slika = document.getElementById("imgdetalji");
+
+        slika.onclick = function () {
+            slika.width = 500;
+
+        }
+
+        slika.ondblclick = function () {
+
+            slika.width = 200;
+
+        }
+
+    </script>
+
+
+}

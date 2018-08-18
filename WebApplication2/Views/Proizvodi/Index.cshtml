@@ -1,0 +1,164 @@
+﻿@model IEnumerable<WebApplication2.Models.Proizvod>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+
+<style>
+    /*#img1 {
+            border:1px solid black;
+        }*/
+    #tabela {
+        background-color: beige;
+        opacity: 0.85;
+    }
+</style>
+
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a href="/Proizvodi/Create">Nov proizvod</a>
+    </p>
+}
+
+
+<div>
+    <label for="id1" class="col-md-2 control-label">Proizvodi iz kategorije</label>
+    <div class="col-md-10">
+        <input id="id1" type="text" class="form-control" />
+    </div><br /><br />
+    <div class="col-md-offset-3">
+        <a class="btn btn-success" onclick="volasa()"><span class="glyphicon glyphicon-search"></span>Trazi</a>
+        <a href="/Proizvodi/Index" class="btn btn-info"><span class="glyphicon glyphicon-list"></span>Svi proizvodi</a>
+    </div>
+
+
+</div>
+
+<table id="tabela" class="table table-striped table-bordered">
+    <tr>
+        <th>
+            KategorijaId
+        </th>
+        <th>
+            Naziv kategorije
+        </th>
+        <th>
+           Naziv proizvodjaca
+        </th>
+        <th>
+           Cena
+        </th>
+        <th>
+           Kolicina
+        </th>
+        <th>
+           Slika
+        </th>
+        <th>
+           Oglas postavio
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr onclick="">
+        <td>
+           @item.KategorijaId
+        </td>
+        <td>
+            @item.Kategorije.NazivKategorije
+        </td>
+        <td>
+            @item.NazivProizvodjaca
+        </td>
+        <td>
+            
+           @item.Cena
+        </td>
+        <td>
+            @item.KolicinaNaLageru
+        </td>
+        <td  Bgcolor= "Yellow">
+           
+            <img width="200" src="@Url.Action("RenderImage", new { id = item.ProizvodId})" />
+        </td>
+        <td>
+           @item.OglasPostavio
+        </td>
+        <td>
+            @if (User.Identity.Name == "Admin" || User.Identity.Name == item.OglasPostavio)
+            {  
+                            
+                <a href="@string.Format("/Proizvodi/Edit/{0}",item.ProizvodId)">Promena</a>
+                <a href="@string.Format("/Proizvodi/Delete/{0}",item.ProizvodId)">Obrisi</a> 
+                
+            }
+            <a href="@string.Format("/Proizvodi/Details/{0}",item.ProizvodId)">Detalji</a>
+
+        </td>
+    </tr>
+}
+
+</table>
+
+
+<div id="prikazi">
+
+</div>
+
+
+<table id="prikazi1">
+    <tr>
+        <td></td>
+    </tr>
+</table>
+
+@section Scripts    {
+    <script>
+
+        
+        function pronadji(poidu) {
+            var zahtev = $.ajax({
+                type: "GET",
+                url: "/Proizvodi/_VratiProizvode",
+                data: { deoNaslova: poidu },
+                contentType: "application/html",        
+                dataType: "html"
+            });
+            zahtev.done(function (podatak) {
+                $("#prikazi").html(podatak);
+            });
+            zahtev.onfail(function (error) {
+                $("#prikazi").html(error.statusText);
+            });
+            
+        }
+
+        function volasa() {
+            var broj = $("#id1").val();
+            if (broj)
+            {
+                $("#tabela").html("");
+                pronadji(broj);
+            }
+        }
+        
+        $(document).ready(function () {
+            var slika = $("img").click(function () {
+
+                $(this).width(500);
+
+                slika.dblclick(function () {
+                    $(this).width(200);
+                });
+            });
+        });
+    </script>  
+       
+    
+    }
