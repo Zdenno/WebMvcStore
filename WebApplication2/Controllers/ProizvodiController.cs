@@ -17,10 +17,6 @@ namespace WebApplication2.Controllers
     {
         private MagacinContext db = new MagacinContext();
 
-       
-
-
-
         public async Task<ActionResult> RenderImage(int id)
         {
             Proizvod p = await db.Proizvods.FindAsync(id);
@@ -29,8 +25,6 @@ namespace WebApplication2.Controllers
 
             return File(slika, "image/png/jpg");
         }
-
-
         //public FileContentResult CitajSliku (int id)
         //{
         //    //Proizvod sl = db.Proizvods.Find();
@@ -46,12 +40,6 @@ namespace WebApplication2.Controllers
         //    }
         //    return File(sl.Slika,sl.Slika.GetType().ToString());
         //}
-
-
-
-
-
-
         // GET: Proizvodi
         [AllowAnonymous]
         public ActionResult Index()
@@ -73,8 +61,6 @@ namespace WebApplication2.Controllers
 
             return PartialView(listaProizvoda.ToList());
         }
-
-
         // GET: Proizvodi/Details/5
         [AllowAnonymous]
         public ActionResult Details(int? id)
@@ -98,12 +84,10 @@ namespace WebApplication2.Controllers
         {
             
             
-            ViewBag.KategorijaId = db.Kategorijas.ToList(); //Ovo ukoliko je bez helperskih funkcija
-            //ViewBag.KategorijaId = new SelectList(db.Kategorijas,"KategorijaId", "NazivKategorije"); //Sa helperskim funkcijama   
+            ViewBag.KategorijaId = db.Kategorijas.ToList(); 
+            //ViewBag.KategorijaId = new SelectList(db.Kategorijas,"KategorijaId", "NazivKategorije"); 
             return View();
         }
-
-
 
         // POST: Proizvodi/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -115,8 +99,8 @@ namespace WebApplication2.Controllers
         {
             if (poslataSlika != null)
             {
-                //p.NazivProizvodjaca = poslataSlika.ContentType; // tu bi mav bitj tip fajla
-                p.Slika = new byte[poslataSlika.ContentLength]; ///kreiran niz bajtova (new byte), niz bajtova je poslataSlika.content
+                //p.NazivProizvodjaca = poslataSlika.ContentType; //  
+                p.Slika = new byte[poslataSlika.ContentLength];  
                 Stream fs = poslataSlika.InputStream;
                 fs.Read(p.Slika, 0, poslataSlika.ContentLength);
             }
@@ -178,7 +162,7 @@ namespace WebApplication2.Controllers
                 //slAtached.Slika = proizvod.Slika;
                 slAtached.OglasPostavio = slAtached.OglasPostavio;                   
 
-                //db.Entry(proizvod).State = EntityState.Modified; //Ze vraj nerobi 
+                //db.Entry(proizvod).State = EntityState.Modified;  
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
