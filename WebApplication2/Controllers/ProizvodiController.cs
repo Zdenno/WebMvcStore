@@ -45,7 +45,7 @@ namespace WebApplication2.Controllers
         public ActionResult Index()
         {
             var proizvods = db.Proizvods.Include(p => p.Kategorije);
-            //ViewBag.Kategorije = db.Kategorijas.ToList(); SSSSS
+            //ViewBag.Kategorije = db.Kategorijas.ToList(); 
             return View(proizvods.ToList());
         }
 
